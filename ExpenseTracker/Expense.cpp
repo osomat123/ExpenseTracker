@@ -8,6 +8,7 @@ namespace ExpenseTracker
       , mAmt{amt}
       , mDate{date}
       , mCategory{category}
+      , mIsTracked{true}
    {
    }
    

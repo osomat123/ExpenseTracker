@@ -10,6 +10,7 @@ namespace ExpenseTracker
       explicit Expense(std::string date, std::string descr, float amt, std::string category="");
 
       Date mDate;
+      bool mIsTracked;
       std::string mDescr;
       float mAmt;
       std::string mCategory;
