@@ -21,10 +21,11 @@ namespace ExpenseTracker
 
       void loadExpensesFromFile(std::string filePath);
       void loadMappingsFromFile(std::string filePath);
-      std::string getExpenseCategory(const Expense & expense);
+      std::string getExpenseCategory(Expense & expense);
       void categorizeExpenses();
       void printExpenses();
       void saveMappingToFile();
+      std::unordered_map<std::string, float> computeExpensePerCategory();
 
    private:
       std::vector<Expense> mExpenses;

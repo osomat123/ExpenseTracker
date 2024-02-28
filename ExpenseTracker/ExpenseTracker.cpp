@@ -1,4 +1,3 @@
-#include <cassert>
 #include "ExpenseTracker.h"
 
 namespace ExpenseTracker
@@ -48,7 +47,6 @@ namespace ExpenseTracker
 
             mKeywords.push_back(keyword);
 
-            assert(mKeywordToCategoryMap.find(keyword) == mKeywordToCategoryMap.end());
             mKeywordToCategoryMap.insert(std::make_pair(keyword, category));
 
          }
@@ -56,9 +54,9 @@ namespace ExpenseTracker
    }
 
    // TODO: Separate User Input Logic from categorization
-   std::string ExpenseTracker::getExpenseCategory(const Expense & expense)
+   std::string ExpenseTracker::getExpenseCategory(Expense & expense)
    {
-      const auto constainsKeyword = [expense](const std::string& keyword)
+      const auto containsKeyword = [expense](const std::string& keyword)
          {
             std::string mainStr(expense.mDescr);
             std::string subStr(keyword);
@@ -67,7 +65,7 @@ namespace ExpenseTracker
             return mainStr.find(subStr) != std::string::npos;
          };
 
-      auto result = std::ranges::find_if(mKeywords, constainsKeyword);
+      auto result = std::ranges::find_if(mKeywords, containsKeyword);
 
       std::string category;
       if (result == mKeywords.end())
@@ -106,6 +104,10 @@ namespace ExpenseTracker
          {
             newKeyword = expense.mDescr;
             category = "Miscellaneous Expense";
+         }
+         else if (action[0] == 'S')
+         {
+            expense.mIsTracked = false;
          }
 
          if (action[0] == 'A' || action[0] == 'M')
@@ -153,5 +155,34 @@ namespace ExpenseTracker
 
       std::ranges::for_each(mKeywordToCategoryMap, writeToFile);
       file.close();
+   }
+
+   std::unordered_map<std::string, float> ExpenseTracker::computeExpensePerCategory()
+   {
+      std::unordered_map<std::string, float> categoryToExpenseMap;
+
+      auto addExpenseAmtTocategory = [&](Expense& expense)
+         {
+            auto category = expense.mCategory;
+            auto amount = expense.mAmt;
+
+            if(expense.mIsTracked)
+            {
+               auto result = categoryToExpenseMap.find(category);
+               if (result != categoryToExpenseMap.end())
+               {
+                  result->second += amount;
+               }
+               else
+               {
+                  categoryToExpenseMap.insert({ category, amount });
+               }
+            }
+
+         };
+
+      std::ranges::for_each(mExpenses, addExpenseAmtTocategory);
+
+      return categoryToExpenseMap;
    }
 }
