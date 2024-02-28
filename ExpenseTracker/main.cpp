@@ -11,7 +11,22 @@ int main()
    tracker.loadMappingsFromFile(mappingPath);
    tracker.loadExpensesFromFile(path);
    tracker.categorizeExpenses();
-   tracker.printExpenses();
+   auto expenseMap = tracker.computeExpensePerCategory();
+
+   std::cout << "Expenses:\n";
+
+   float total = 0;
+   for (const auto& [key, value] : expenseMap)
+   {
+      std::cout<< std::left
+               << std::setw(25) << key
+               << std::setw(10) << value << "\n";
+
+      total += value;
+   }
+   std::cout << "Total: " << total;
+
+   //tracker.printExpenses();
 
    return 0;
 }
