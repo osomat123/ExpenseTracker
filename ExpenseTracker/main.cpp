@@ -8,9 +8,12 @@ int main()
    const std::string mappingPath = "C:\\Users\\tejpu\\Downloads\\statement\\mapping.txt";
    ExpenseTracker::ExpenseTracker tracker;
 
-   tracker.loadMappingsFromFile(mappingPath);
+   // tracker.loadMappingsFromFile(mappingPath);   // Use if you already have a mappings file
    tracker.loadExpensesFromFile(path);
    tracker.categorizeExpenses();
+   tracker.saveMappingToFile();  // save the mappings to file
+
+   // Report Generation
    auto expenseMap = tracker.computeExpensePerCategory();
 
    std::cout << "Expenses:\n";
