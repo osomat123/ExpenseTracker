@@ -2,7 +2,7 @@
 # and include sub-projects here.
 #
 cmake_minimum_required(VERSION 3.15)
-project(ExpenseTracker)
+project(ExpenseTrackerApp)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -17,7 +17,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/output)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/output)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/output)
 
+add_subdirectory (AppCLI)
 add_subdirectory (ExpenseTracker)
-add_subdirectory(OpenXLSX)
+add_subdirectory (OpenXLSX)
 
-target_link_libraries(ExpenseTracker OpenXLSX::OpenXLSX)
+#target_link_libraries(AppCLI ExpenseTracker OpenXLSX::OpenXLSX)

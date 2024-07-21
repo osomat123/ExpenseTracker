@@ -17,4 +17,3 @@ namespace ExpenseTracker
    };
    std::ostream& operator<<(std::ostream& os, const Expense& expense);
 }
-

@@ -18,7 +18,7 @@ namespace ExpenseTracker
          << std::setw(15) << expense.mDate 
          << std::setw(110) << expense.mDescr 
          << std::setw(50) << expense.mAmt 
-         <<std::setw(20) << expense.mCategory;
+         << std::setw(20) << expense.mCategory;
 
       return os;
    }

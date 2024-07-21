@@ -3,33 +3,32 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
-#include <unordered_set>
 #include <OpenXLSX.hpp>
 #include "Expense.h"
+#include "MappingInfo.h"
+#include "IUserInput.h"
 
 namespace ExpenseTracker
 {
    class ExpenseTracker
    {
    public:
-      explicit ExpenseTracker()
+      explicit ExpenseTracker(const std::string& expenseFilePath, std::shared_ptr<MappingInfo> mappingInfo, std::unique_ptr<IUserInput> userInput)
          : mExpenses{}
-         , mKeywords{}
-         , mKeywordToCategoryMap{}
+         , mMappingInfo{mappingInfo}
+         , mUserInput{std::move(userInput)}
       {
+         loadExpensesFromFile(expenseFilePath);
       }
 
       void loadExpensesFromFile(std::string filePath);
-      void loadMappingsFromFile(std::string filePath);
-      std::string getExpenseCategory(Expense & expense);
       void categorizeExpenses();
       void printExpenses();
-      void saveMappingToFile();
       std::unordered_map<std::string, float> computeExpensePerCategory();
 
    private:
       std::vector<Expense> mExpenses;
-      std::vector<std::string> mKeywords;
-      std::unordered_map<std::string, std::string> mKeywordToCategoryMap;
+      std::shared_ptr<MappingInfo> mMappingInfo;
+      std::unique_ptr<IUserInput> mUserInput;
    };
 }
